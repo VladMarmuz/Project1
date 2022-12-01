@@ -7,7 +7,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class BookDAO {
@@ -18,6 +17,29 @@ public class BookDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+
+    public List<Book> getAllBook() {
+        return jdbcTemplate.query("SELECT * FROM Book",new BeanPropertyRowMapper<>(Book.class));
+    }
+
+    public void create(Book book) {
+        jdbcTemplate.update("INSERT INTO Book (title,author,year) VALUES (?,?,?)"
+                , book.getTitle(), book.getAuthor(), book.getYear());
+    }
+
+    public Book findBookById(int id) {
+        return jdbcTemplate.query("SELECT * FROM Book WHERE id =?", new Object[]{id}, new BeanPropertyRowMapper<>(Book.class))
+                .stream().findAny().orElse(null);
+    }
+
+    public void updateBook(Book book, int id) {
+        jdbcTemplate.update("UPDATE Book SET title=?, author=?, year=? WHERE id=?"
+                , book.getTitle(), book.getAuthor(), book.getYear(), id);
+    }
+
+    public void deleteBook(int id) {
+        jdbcTemplate.update("DELETE FROM Book WHERE id=?", id);
+    }
 
 
 }
