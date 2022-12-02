@@ -1,12 +1,15 @@
 package com.marmuz.models;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 public class Person {
     private int id;
 
-    //@NotEmpty(message = "Имя не должно быть пустым")
-   // @Size(min = 2, max = 100, message = "Имя должно быть минимум 2 символа,максимум - 100")
+    @NotEmpty(message = "Имя не должно быть пустым")
+    @Size(min = 2, max = 100, message = "Имя должно быть минимум 2 символа,максимум - 100")
     private String fullName;
-    //@Size(min = 1920, message = "Год рождения должен быть больше 1920")
+    @Size(min = 1920, message = "Год рождения должен быть больше 1920")
     private int yearOfBirth;
 
     public Person(int id, String fullName, int yearOfBirth) {

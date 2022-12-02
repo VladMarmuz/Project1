@@ -1,12 +1,14 @@
 package com.marmuz.dao;
 
 import com.marmuz.models.Book;
+import com.marmuz.models.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class BookDAO {
@@ -42,4 +44,15 @@ public class BookDAO {
     }
 
 
+    public Optional<Person> getPersonOwner(int bookId) {
+        return jdbcTemplate.query("SELECT Person.* FROM Book JOIN Person ON Book.person_id = Person.id WHERE Book.id = ?",
+                new Object[]{bookId}, new BeanPropertyRowMapper<>(Person.class)).stream().findAny();
+    }
+
+    public void release(int id) {
+        jdbcTemplate.update("UPDATE Book SET person_id= NULL WHERE id = ?",id);
+    }
+    public void assign(int id,Person person) {
+        jdbcTemplate.update("UPDATE Book SET person_id=? WHERE id = ?",person.getId(),id);
+    }
 }

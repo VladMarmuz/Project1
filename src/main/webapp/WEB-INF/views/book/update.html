@@ -8,7 +8,7 @@
 <form th:method="POST" th:action="@{/books/{id}(id=${book.getId()})}" th:object="${book}">
     <label for="title">Название книги</label>
     <input type="text" th:field="*{title}" id="title"/>
-    <div style="color: red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">errors</div>-->
+    <div style="color: red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">errors</div>
     <br>
     <label for="author">Автор</label>
     <input type="text" th:field="*{author}" id="author"/>
